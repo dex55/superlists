@@ -16,8 +16,8 @@ class NewVisitorTest(unittest.TestCase):
 
         # Edith has heard about an online app for managing to-do lists.
         # She goes to check out its home page.
-        home_page = "http://localhost:8000"
-        self.browser.get(home_page)
+        web_root = "http://localhost:8000"
+        self.browser.get(web_root)
 
         # She notices that the page title and header mention to-do lists.
         self.assertIn("To-Do", self.browser.title)
