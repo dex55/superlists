@@ -7,7 +7,6 @@ from lists.models import Item
 def home_page(request):
     if request.method == 'POST':
         Item.objects.create(text=request.POST['item_text'])
-        print("DEBUG: created new object with text == " + request.POST['item_text'])
         return redirect('/')
 
     items = Item.objects.all()
