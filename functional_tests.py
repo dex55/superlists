@@ -19,11 +19,8 @@ class NewVisitorTest(unittest.TestCase):
     def assert_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('table_to-do_list')
         rows = table.find_elements_by_tag_name('tr')
-        found = False
-        for row in rows:
-            if row_text == row:
-                found = True
-        self.assertTrue(found, "Could not find '" + row_text + "' in table.")
+
+        self.assertIn(row_text, [row.text for row in rows])
 
     ###########################################################################
     # Functional Tests
@@ -58,7 +55,7 @@ class NewVisitorTest(unittest.TestCase):
         # When she hits enter, the page updates, and now the page lists
         # "1: Buy peacock feathers" as an item in a to-do list
         inputbox.send_keys(Keys.ENTER)
-        sleep(1)
+        sleep(2)
         self.assert_row_in_list_table('1: Buy peacock feathers')
 
         # There is still a text box inviting her to add another item. She
@@ -66,7 +63,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('new_item_input')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        sleep(1)
+        sleep(2)
 
         # The page updates again, and now shows both items on her list
         self.assert_row_in_list_table('1: Buy peacock feathers')

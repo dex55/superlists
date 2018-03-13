@@ -19,7 +19,9 @@
 
 <p>
     <table id="table_to-do_list">
-        <tr><td>1: {{ new_item_text }}</td></tr>
+        {% for item in items %}
+            <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+        {% endfor %}
     </table>
 </p>
 
