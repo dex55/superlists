@@ -1,3 +1,1 @@
-python functional_tests.py
-
-./db.sh
+python manage.py test functional_tests

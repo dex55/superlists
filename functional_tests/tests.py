@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
+from django.test import LiveServerTestCase
 from time import sleep
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -33,7 +33,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # Edith has heard about an online app for managing to-do lists.
         # She goes to check out its home page.
-        web_root = "http://localhost:8000"
+        web_root = self.live_server_url
         self.browser.get(web_root)
 
         # She notices that the page title and header mention to-do lists.
@@ -77,7 +77,3 @@ class NewVisitorTest(unittest.TestCase):
         # She visits that URL - her to-do list is still there.
 
         # Satisfied, she goes back to sleep
-
-
-if __name__ == '__main__':
-    unittest.main()
