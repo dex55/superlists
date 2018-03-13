@@ -12,8 +12,26 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    # Don't let the use of unittest module fool you. This is
-    # still a functional test, not a unit test.
+    ###########################################################################
+    # Helper methods
+    ###########################################################################
+
+    def assert_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('table_to-do_list')
+        rows = table.find_elements_by_tag_name('tr')
+        found = False
+        for row in rows:
+            if row_text == row:
+                found = True
+        self.assertTrue(found, "Could not find '" + row_text + "' in table.")
+
+    ###########################################################################
+    # Functional Tests
+    ###########################################################################
+
+    # Despite the use of unittest module, these are functional tests,
+    # not unit tests.
+
     def test_can_start_a_new_list_and_retrieve_it_later(self):
 
         # Edith has heard about an online app for managing to-do lists.
@@ -40,24 +58,19 @@ class NewVisitorTest(unittest.TestCase):
         # When she hits enter, the page updates, and now the page lists
         # "1: Buy peacock feathers" as an item in a to-do list
         inputbox.send_keys(Keys.ENTER)
-        sleep(5)
-
-        table = self.browser.find_element_by_id('table_to-do_list')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
+        sleep(1)
+        self.assert_row_in_list_table('1: Buy peacock feathers')
 
         # There is still a text box inviting her to add another item. She
         # enters "Use peacock feathers to make a fly" (Edith is very methodical)
         inputbox = self.browser.find_element_by_id('new_item_input')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        sleep(5)
+        sleep(1)
 
         # The page updates again, and now shows both items on her list
-        table = self.browser.find_element_by_id('table_to-do_list')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
-        self.assertIn('2: Use peacock feathers to make a fly', [row.text for row in rows])
+        self.assert_row_in_list_table('1: Buy peacock feathers')
+        self.assert_row_in_list_table('2: Use peacock feathers to make a fly')
 
         # Edith wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
