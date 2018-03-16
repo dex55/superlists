@@ -5,7 +5,7 @@ from django.test import LiveServerTestCase
 from time import sleep, time
 
 
-MAX_WAIT = 2
+MAX_WAIT = 5
 
 
 class NewVisitorTest(LiveServerTestCase):
@@ -88,7 +88,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # She notices that her list has a unique URL
         edith_list_url = self.browser.current_url
-        self.assertRegex(edith_list_url, '/lists/.+')
+        self.assertRegex(edith_list_url, '/lists/\d+/')
 
         # Now a new user, Francis, comes along to the site.
 
@@ -113,13 +113,20 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
-        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertRegex(francis_list_url, '/lists/\d+/')
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         # Again there is no trace of Edith's list
-        self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_tag_name('body')
+        self.browser.get(francis_list_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
+
+        # In the meantime, Edith takes a last look at her list...
+        # ... and there is no trace of Francis' list here.
+        self.browser.get(edith_list_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Buy peacock feathers', page_text)
+        self.assertNotIn('Buy milk', page_text)
 
         # Satisfied, they both go back to sleep
