@@ -1,0 +1,15 @@
+/* DISABLED: too slow to run the FTs
+html {
+  background: url("img/wavy_rainbow_curves.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index: 10;
+  opacity: 0.75;
+}
+*/
+
+#new_item_input {
+    margin-top: 2ex;
+}
