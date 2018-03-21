@@ -6,7 +6,7 @@
 
 {% block table %}
 <p>
-  <table id="table_to-do_list">
+  <table id="table_to-do_list" class="table">
     {% if list.item_set.all %}
       {% for item in list.item_set.all %}
         <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
