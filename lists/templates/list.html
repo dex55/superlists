@@ -1,33 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>To-Do lists</title>
-</head>
-<body>
-<h1>To-Do lists</h1>
+{% extends 'base.html' %}
 
+{% block header_text %}To-Do lists{% endblock %}
+
+{% block form_action%}/lists/{{ list.id }}/add_item{% endblock %}
+
+{% block table %}
 <p>
-    <form method="POST" action="/lists/{{ list.id }}/add_item">
-        <input name="item_text"
-               id="new_item_input"
-               placeholder="Enter a to-do item"
-        />
-        {% csrf_token %}
-    </form>
+  <table id="table_to-do_list">
+    {% if list.item_set.all %}
+      {% for item in list.item_set.all %}
+        <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+      {% endfor %}
+    {% else %}
+      <p>No items found in to-do list. Nothing to display.</p>
+    {% endif %}
+  </table>
 </p>
-
-<p>
-    <table id="table_to-do_list">
-        {% if list.item_set.all %}
-            {% for item in list.item_set.all %}
-                <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
-            {% endfor %}
-        {% else %}
-            <p>No items found in to-do list. Nothing to display.</p>
-        {% endif %}
-    </table>
-</p>
-
-</body>
-</html>
+{% endblock table %}
