@@ -4,3 +4,8 @@ selenium
 .idea
 __pycache__
 *.pyc
+
+.coverage
+.coveragerc
+htmlcov/
+
