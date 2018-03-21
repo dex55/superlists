@@ -25,7 +25,8 @@ SECRET_KEY = 'dq#&1*1btjrigm$efl^2t8(0p3_5k$$rfp#0@^015@!&12si8#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# The value "testserver" is added for enabling testing through PyCharm.
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 
 # Application definition

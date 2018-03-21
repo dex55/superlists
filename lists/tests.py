@@ -2,6 +2,12 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 
+# This block is a workaround for a PyCharm-specific error:
+# django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet.
+# TODO: find a better way that does not involve execution before imports.
+import django
+django.setup()
+
 from lists.views import home_page
 from lists.models import Item, List
 
@@ -146,3 +152,7 @@ class NewItemTest(TestCase):
         )
 
         self.assertRedirects(response, '/lists/' + str(correct_list.id) + '/')
+
+if __name__ == '__main__':
+    TestCase.main()
+
