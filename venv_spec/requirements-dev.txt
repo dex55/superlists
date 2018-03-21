@@ -1,0 +1,4 @@
+coverage==4.5.1
+Django==1.11.11
+pytz==2018.3
+selenium==3.10.0
