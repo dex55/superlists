@@ -122,3 +122,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+AUTO_BROWSER = {
+    'BRAND': 'Firefox',
+    'IS_HEADLESS': False,
+}
+
+SUPPORTED_BROWSER_BRANDS = ['Firefox', 'Chrome']
+
+if os.environ.get('BROWSER') in SUPPORTED_BROWSER_BRANDS:
+    AUTO_BROWSER['BRAND'] = os.environ.get('BROWSER')
+
+AUTO_BROWSER_IS_HEADLESS = os.environ.get('HEADLESS')
+if AUTO_BROWSER_IS_HEADLESS:
+    AUTO_BROWSER['IS_HEADLESS'] = True

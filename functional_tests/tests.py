@@ -5,17 +5,42 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-
 from time import sleep, time
+
+from superlists import settings
 
 
 MAX_WAIT = 5
 
 
+class AutoBrowser:
+
+    @staticmethod
+    def configure():
+        brand = settings.AUTO_BROWSER['BRAND']
+        headless = settings.AUTO_BROWSER['IS_HEADLESS']
+
+        if brand == 'Firefox':
+            if headless:
+                os.environ['MOZ_HEADLESS'] = '1'
+            browser = webdriver.Firefox()
+
+        elif brand == 'Chrome':
+            chrome_cfg = webdriver.ChromeOptions()
+            if headless:
+                chrome_cfg.add_argument('headless')
+            browser = webdriver.Chrome(chrome_options=chrome_cfg)
+
+        else:
+            raise Exception("Unsupported browser brand: " + str(brand))
+
+        return browser
+
+
 class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = AutoBrowser.configure()
         staging_server = os.environ.get('STAGING_SERVER')
         if staging_server:
             self.live_server_url = 'http://' + staging_server
@@ -103,7 +128,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # We use a new browser session to make sure that no information
         # of Edith's is coming through from cookies etc
         self.browser.quit()
-        self.browser = webdriver.Firefox()
+        self.browser = AutoBrowser.configure()
 
         # Francis visits the home page. There is no sign of Edith's list
         self.browser.get(self.live_server_url)
