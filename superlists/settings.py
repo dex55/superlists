@@ -26,7 +26,7 @@ SECRET_KEY = 'dq#&1*1btjrigm$efl^2t8(0p3_5k$$rfp#0@^015@!&12si8#'
 DEBUG = True
 
 # The value "testserver" is added for enabling testing through PyCharm.
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', 'superlists.staging.cytronica.com']
 
 
 # Application definition
